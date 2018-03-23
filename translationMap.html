@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!-- Author Conor Mckeown for Vagabond Voices 2017 -->
+<html>
+<head>
+	<title>Translation Project</title>
+	<meta charset="utf-8" />
+	<meta name="map mockup" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+	<style>
+	<!-- Import fonts -->
+	@import url(https://fonts.googleapis.com/css?family=Inconsolata);
+	@import url(https://fonts.googleapis.com/css?family=Seaweed+Script);
+		
+		
+#row
+{box-sizing:border-box;content:"";display: table;clear: both;}
+
+#map 
+{float:left;width: 500px;height: 500px;}
+
+#text
+{box-sizing:border-box; float: left;width: 500px;padding: 10px;margin-top: auto;margin-bottom: auto;margin-left: auto;background-color: yellow;width: 50%;height:500px;}
+<!--Contains-->
+	#bBanner
+	{box-sizing:border-box; float: left; width:50%; height:200px; content:"AGHHHHHH"; background-color:blue;}
+	<!--Contains-->
+		#bGap
+		{}
+		#bIMG
+		{float: left; width:50%; height:200px; content:""; background-color:red;}
+	#bTitle
+	{float: left; width:50%; height:200px; content:""; background-color:blue;}
+
+
+<!--FONTS-->
+.center {
+    margin: auto;
+    width: 50%;
+	padding: 0px;
+	box-shadow: 0px 10px 30px #888888; 
+}
+.plate {
+  width: 410px;
+  margin: 5% auto;
+}
+.shadow {
+  color: #222;
+  font-family: Inconsolata;
+  line-height: 0.8em;
+  letter-spacing: 0.1em;
+  text-align: left;
+  padding: 1em;
+}
+p.bookTitle{
+max-width: 50px;
+min-width: 50px;
+min-height: 1000px;
+padding: 1em;
+}
+
+.script {
+  font-family: "Seaweed Script";
+  color: #222;
+  text-align: center;
+  font-size: 40px;
+  position: relative;
+  margin:0;
+}
+.script span {
+  padding: 0 0.3em;
+}
+.script:before {
+  content:"";
+  display: block;
+  position: absolute;
+  z-index:-1;
+  top: 50%;
+  width: 100%;
+  border-bottom: 3px solid #fff;
+}
+.text1 {
+  font-size: 20px;
+}
+.text2 {
+  font-size: 169px;
+}
+.text3 {
+  font-size: 100px;
+}
+.scroll-wrapper {
+			position: relative; 
+			-webkit-overflow-scrolling: touch; 
+			overflow-y: auto; 
+			} 
+			.scroll-wrapper, 
+			.scroll-wrapper{
+			width: 20%;
+			height: 40px;
+			}
+			.scroll-wrapper::-webkit-scrollbar { 
+			/* This is the magic bit */
+			display: none;
+			}
+
+</style>
+
+	
+</head>
+<body>
+
+<div id="row">
+	<div id='map'></div>
+	<div id='text'><p id='desc'></p>
+		<div id='bBanner'>
+			<div id='bGap'></div>
+			<div id='bIMG'><img src='https://drive.google.com/file/d/19T584pcd522nPO2oAJun7k1_AdlLStu2/view?usp=sharing/WhiteShroud.jpg'></div>
+		</div>
+		<div id='bTitle'><p class='bookTitle'>Title of a book one long word</p></div>
+		<div id='bText'><h1>One huge word breaks shit<h1></div>
+	</div>
+</div>
+
+<script>
+	//More map centring and building
+	var map = L.map('map', 
+		{ 
+		center: [500, 500],
+		minZoom: -3,
+		maxZoom: 4,
+		crs: L.CRS.Simple,
+		maxBounds:bounds,
+		maxBoundsViscosity:1.0,
+		});
+	var yx = L.latLng;
+	var xy = function(x, y) 
+		{
+			if (L.Util.isArray(x)) 
+				{    // When doing xy([x, y]);
+				return yx(x[1], x[0]);
+				}
+		return yx(y, x);  // When doing xy(x, y);
+		};
+		
+	<!-- The approximate 'bounds' of the image-->
+	var bounds = [xy(0, 0), xy(1000, 1000)];
+	<!-- Overlays the image on to the map - made through CRS.simple -->	
+	var image = L.imageOverlay('https://cpmmckeown.github.io/map.svg', bounds).addTo(map);
+	map.setMaxBounds(bounds);
+
+	
+	//MAP ICON IMAGE
+	var weeManIcon = L.Icon.extend ({
+	options: 
+		{
+		iconUrl: 'https://cpmmckeown.github.io/weeman-vector.svg',
+		iconSize: [26, 30],
+		iconAnchor:   [18, 0]}
+		});
+	var weeMan = new weeManIcon();
+
+	//OBJECTS ON THE MAP START AS VARS WITH XY CO-ORDINATES
+	//IF YOU WANT TO ADD SOMETHING TO THE MAP, FIRST MAKE
+	// A NEW var WITH xy CO-ORDINATES
+	var quoteOne = xy (650, 285);
+	var quoteTwo = xy (600, 350);
+	
+	//THEN, MAKE A POPUP TO GO ALONG WITH THE VAR
+	var popup1 = L.popup ({
+		keepInView: true,
+		autoPan: true,
+		closeButton: false,
+		closeOnClick: true,
+		minWidth:80,
+		});	
+	
+	//BOOK INFO IS DISPLAYED THROUGH THESE DIFFERENT FUNCTIONS. 
+	function onClickA() 
+	{
+		document.getElementById("desc").innerHTML = "Daft Wanker";
+	}
+	function onClickB()
+	{
+		document.getElementById("desc").innerHTML = "Lovely Face";
+	}
+ 
+	
+
+
+	L.marker (quoteOne, {icon: weeMan}).addTo(map).on('click', onClickA).bindPopup('This Book By This Person');
+	L.marker (quoteTwo, {icon: weeMan}).addTo(map).on('click', onClickB).bindPopup('This Book By That Person');
+	
+	//L.marker(topLeft).addTo(map).bindPopup('top left');
+	//L.marker(topRight).addTo(map).bindPopup('top right');
+	//L.marker(bottomRight).addTo(map).bindPopup('bottom right');
+	//L.marker(bottomLeft).addTo(map).bindPopup('bottom left');
+	
+	//var travel = L.polyline([bottomRight, bottomLeft]).addTo(map);
+	//if lines need to connect things?
+	map.setView(xy(500, 500), -1);
+</script>
+
+
+
+</body>
+</html>
