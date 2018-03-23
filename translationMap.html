@@ -12,26 +12,39 @@
 	@import url(https://fonts.googleapis.com/css?family=Inconsolata);
 	@import url(https://fonts.googleapis.com/css?family=Seaweed+Script);
 		
+*{box-sizing:border-box;}
 		
-#row
-{box-sizing:border-box;content:"";display: table;clear: both;}
+
+.column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+}		
+		
+.row:after
+{content:"";display: table;clear: both;}
 
 #map 
 {float:left;width: 500px;height: 500px;}
 
 #text
-{box-sizing:border-box; float: left;width: 500px;padding: 10px;margin-top: auto;margin-bottom: auto;margin-left: auto;background-color: yellow;width: 50%;height:500px;}
+{float: left; padding: 10px; margin-top: -30px; margin-bottom: auto; margin-left: auto; width: 50%; height: 100%;}
 <!--Contains-->
-	#bBanner
-	{box-sizing:border-box; float: left; width:50%; height:200px; content:"AGHHHHHH"; background-color:blue;}
-	<!--Contains-->
-		#bGap
-		{}
+	#bBanner{}
+		<!--Contains-->
 		#bIMG
-		{float: left; width:50%; height:200px; content:""; background-color:red;}
-	#bTitle
-	{float: left; width:50%; height:200px; content:""; background-color:blue;}
+		{float: left; width:30%;}
+		#bTitle
+		{float: left; width:50%; margin-left:-25%; display:block;}
 
+<!-- BOOK COVER STYLE -->
+img.bCover {
+background-color: blue;
+height: 200;
+width: 150;
+filter: blur(5px);
+}
 
 <!--FONTS-->
 .center {
@@ -52,11 +65,9 @@
   text-align: left;
   padding: 1em;
 }
-p.bookTitle{
-max-width: 50px;
-min-width: 50px;
-min-height: 1000px;
-padding: 1em;
+
+h1.bookTitle{
+text-shadow: 2px 2px 4px #000000;
 }
 
 .script {
@@ -109,17 +120,23 @@ padding: 1em;
 </head>
 <body>
 
-<div id="row">
-	<div id='map'></div>
-	<div id='text'><p id='desc'></p>
-		<div id='bBanner'>
-			<div id='bGap'></div>
-			<div id='bIMG'><img src='https://drive.google.com/file/d/19T584pcd522nPO2oAJun7k1_AdlLStu2/view?usp=sharing/WhiteShroud.jpg'></div>
+<div class="row">
+	<div class="column" id='map'></div>
+	<div class="column" id='text'>
+		<div class="row" id='bBanner'>
+			<div class="column" id='bIMG'><img class="bCover" src='https://github.com/cpmmckeown/transImgs/blob/master/18.jpg'></div>
+			<div class="column" id='bTitle'>
+				<h1 class='bookTitle'>Title of The Book</h1>
+				<p> More info about the book </p>
+				<p> More stuff </p>
+			</div>
 		</div>
-		<div id='bTitle'><p class='bookTitle'>Title of a book one long word</p></div>
-		<div id='bText'><h1>One huge word breaks shit<h1></div>
+			<div class="row"><p>There's a lot to learn</p></div>
+		
+		
 	</div>
 </div>
+
 
 <script>
 	//More map centring and building
