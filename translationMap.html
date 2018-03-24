@@ -8,97 +8,55 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
 	<style>
-	<!-- Import fonts -->
-	@import url(https://fonts.googleapis.com/css?family=Inconsolata);
-	@import url(https://fonts.googleapis.com/css?family=Seaweed+Script);
+	
+/*import fonts*/	
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro|Roboto)
+
+/*translucent background*/		
+body{background: linear-gradient(to right, rgba(200, 200, 200, 0.3) 0%, rgba(255,255,255, 0.3) 100%);}
 		
 *{box-sizing:border-box;}
-		
 
-.column {
-    float: left;
-    width: 50%;
-    padding: 10px;
-    height: 300px; /* Should be removed. Only for demonstration */
-}		
+.column 
+{ float: left; width: 50%;}
+
+#backDrop.row
+{z-index:-10; position:absolute;}		
 		
 .row:after
-{content:"";display: table;clear: both;}
+{content:""; display: table;clear: both;}
 
 #map 
-{float:left;width: 500px;height: 500px;}
+{float:left;width: 700px;height: 700px;  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19); z-index: -1; position:fixed;}
+
 
 #text
-{float: left; padding: 10px; margin-top: -30px; margin-bottom: auto; margin-left: auto; width: 50%; height: 100%;}
-<!--Contains-->
-	#bBanner{}
-		<!--Contains-->
+{float: left; margin-top: -20px; margin-bottom: auto; margin-left: 100%; width: 50%; height: 100%; position:relative;}
+/*contains*/
+	#bBanner{margin-top: 20px;}
+		/*contains*/
+		#bookBack
+		/*Seems to help the DIV ordering*/
+		{float:left; /*background: linear-gradient(to bottom, rgba(100, 100, 100, 0.3) 0%, rgba(255,255,255, 0.3) 100%);*/ position:fixed; width:50%; z-index: -10; margin-right:100px; height:100%; /*box-shadow: 8px 0 20px 1px rgba(100, 100, 100, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/}
+		
 		#bIMG
-		{float: left; width:30%;}
+		/*DIV FOR THE IMAGE*/
+		{float: left; width:50%;}
+		
+		#bookCover
+		/*THE ACTUAL IMAGE THAT GOES IN THE DIV*/
+		{width: 370px; height: 500px; margin-left:10%; margin-top:10%; opacity: 0.7; position:relative;}
+		
 		#bTitle
-		{float: left; width:50%; margin-left:-25%; display:block;}
+		/*TEXT*/
+		{text-align:center; float: left; width:99%; margin-left:10%; display:block; z-index:10;  position:relative; text-shadow: 3px 2px 3px #ffffff; }
 
-<!-- BOOK COVER STYLE -->
-img.bCover {
-background-color: blue;
-height: 200;
-width: 150;
-filter: blur(5px);
-}
+/*FONTS*/
 
-<!--FONTS-->
-.center {
-    margin: auto;
-    width: 50%;
-	padding: 0px;
-	box-shadow: 0px 10px 30px #888888; 
-}
-.plate {
-  width: 410px;
-  margin: 5% auto;
-}
-.shadow {
-  color: #222;
-  font-family: Inconsolata;
-  line-height: 0.8em;
-  letter-spacing: 0.1em;
-  text-align: left;
-  padding: 1em;
-}
-
-h1.bookTitle{
-text-shadow: 2px 2px 4px #000000;
-}
-
-.script {
-  font-family: "Seaweed Script";
-  color: #222;
-  text-align: center;
-  font-size: 40px;
-  position: relative;
-  margin:0;
-}
-.script span {
-  padding: 0 0.3em;
-}
-.script:before {
-  content:"";
-  display: block;
-  position: absolute;
-  z-index:-1;
-  top: 50%;
-  width: 100%;
-  border-bottom: 3px solid #fff;
-}
-.text1 {
-  font-size: 20px;
-}
-.text2 {
-  font-size: 169px;
-}
-.text3 {
-  font-size: 100px;
-}
+p
+{font-size:1em; font-family: 'Source Sans Pro', sans-serif;}
+h1
+{font-family: 'Roboto', sans-serif;}
 .scroll-wrapper {
 			position: relative; 
 			-webkit-overflow-scrolling: touch; 
@@ -120,22 +78,21 @@ text-shadow: 2px 2px 4px #000000;
 </head>
 <body>
 
-<div class="row">
+<div class='row' id='backDrop' style="max-width:700px; margin-left:7%">
 	<div class="column" id='map'></div>
 	<div class="column" id='text'>
 		<div class="row" id='bBanner'>
-			<div class="column" id='bIMG'><img class="bCover" src='https://github.com/cpmmckeown/transImgs/blob/master/18.jpg'></div>
+			<div class="column" id="bookBack"></div>
+			<div class="column" id='bIMG'><a href="https://www.vagabondvoices.co.uk"><img id="bookCover" src='https://cpmmckeown.github.io/weeman-vector.svg' width='300' height='500'></a></div>
 			<div class="column" id='bTitle'>
-				<h1 class='bookTitle'>Title of The Book</h1>
-				<p> More info about the book </p>
-				<p> More stuff </p>
+				<hr>
+				<h1 id='bookTitle'>Vagabond Voices: Think in Translation</h1>
+				<p id='bookDesc'>Click one of the icons on the map to see more about the author's work...</p>
 			</div>
 		</div>
-			<div class="row"><p>There's a lot to learn</p></div>
-		
-		
 	</div>
 </div>
+<div style="min-width:100%; position:relative;" ></div>
 
 
 <script>
@@ -160,7 +117,7 @@ text-shadow: 2px 2px 4px #000000;
 		};
 		
 	<!-- The approximate 'bounds' of the image-->
-	var bounds = [xy(0, 0), xy(1000, 1000)];
+	var bounds = [xy(0, 0), xy(1400, 1400)];
 	<!-- Overlays the image on to the map - made through CRS.simple -->	
 	var image = L.imageOverlay('https://cpmmckeown.github.io/map.svg', bounds).addTo(map);
 	map.setMaxBounds(bounds);
@@ -179,8 +136,19 @@ text-shadow: 2px 2px 4px #000000;
 	//OBJECTS ON THE MAP START AS VARS WITH XY CO-ORDINATES
 	//IF YOU WANT TO ADD SOMETHING TO THE MAP, FIRST MAKE
 	// A NEW var WITH xy CO-ORDINATES
-	var quoteOne = xy (650, 285);
-	var quoteTwo = xy (600, 350);
+	var london = xy(500, 630);
+	var lithuania = xy(920, 720);
+	var estonia = xy(950, 830);
+	var estonia2 = xy(960, 850);
+	var estonia3 = xy(970, 840);
+	var latvia = xy(950, 760);
+	var italy = xy(715, 340);
+	var italy2 = xy(720, 375);
+	var italy3 = xy(730, 350);
+	var italy4 = xy(700, 360);
+	var finland = xy(970, 1040);
+	var sweden = xy(870, 1040);
+	var germany = xy(700, 700);
 	
 	//THEN, MAKE A POPUP TO GO ALONG WITH THE VAR
 	var popup1 = L.popup ({
@@ -190,22 +158,67 @@ text-shadow: 2px 2px 4px #000000;
 		closeOnClick: true,
 		minWidth:80,
 		});	
+		
+	L.marker (london, {icon: weeMan}).addTo(map).on('click', whiteShroud).bindPopup('This Book By That Person');
+	L.marker (lithuania, {icon: weeMan}).addTo(map).on('click', memoirs).bindPopup('This Book By That Person');
+	L.marker (estonia, {icon: weeMan}).addTo(map).on('click', iLoved).bindPopup('I Loved a German, by A.H. Tammsaare');
+	L.marker (estonia2, {icon: weeMan}).addTo(map).on('click', theDeath).bindPopup('The Death of the Perfect Sentence (Täiusliku lause surm, 2015) by Rein Raud');
+	L.marker (estonia3, {icon: weeMan}).addTo(map).on('click', theSaviour).bindPopup('The Saviour of Lasnamäe (Lasnamäe lunastaja, 2009) by Mari Saat');
+	L.marker (latvia, {icon: weeMan}).addTo(map).on('click', eighteen).bindPopup('18 (18, 2015) by Pauls Bankovskis translated by Ieva Lešinska, 2017');
+	L.marker (italy, {icon: weeMan}).addTo(map).on('click', theAnnonymous).bindPopup('The Anonymous Novel(Romanzo russo: Fuitando i futuri supplizi, 1998) by Alessandro Barbero translated by Allan Cameron, 2010');
+	L.marker (italy2, {icon: weeMan}).addTo(map).on('click', ofJewish).bindPopup('Of Jewish Race(Di razza ebraica, 2005) by Renzo Modiano translated by Mirna Cicioni & Susan Walker, 2013');
+	L.marker (italy3, {icon: weeMan}).addTo(map).on('click', onClickB).bindPopup('The Nocturnal Library(Le tentazioni di Girolamo, 1991)by Ermanno Cavazzoni translated by Allan Cameron, 2013');
+	L.marker (italy4, {icon: weeMan}).addTo(map).on('click', onClickB).bindPopup('Freudian Slips(Il caso Marilyn M. e altri disastri della psicoanalisi, 2000) by Luciano Mecacci translated by Allan Cameron, 2009');
+	L.marker (finland, {icon: weeMan}).addTo(map).on('click', happyLittle).bindPopup('A Happy Little Island(En lycklig liten ö, 2007) by Lars Sund translated by Peter Graves, 2016');
+	L.marker (sweden, {icon: weeMan}).addTo(map).on('click', onClickB).bindPopup('The Garden(Trädgården, 2012) by Magnus Florin translated by Harry Watson, 2014');
+	L.marker (germany, {icon: weeMan}).addTo(map).on('click', onClickB).bindPopup('Stillness of the Sea (Meeresstille, 2010) by Nicol Ljubić translated by Anna Paterson, 2011');
 	
 	//BOOK INFO IS DISPLAYED THROUGH THESE DIFFERENT FUNCTIONS. 
-	function onClickA() 
+	function happyLittle() 
 	{
-		document.getElementById("desc").innerHTML = "Daft Wanker";
+		document.getElementById("bIMG").innerHTML = '<a href="https://www.vagabondvoices.co.uk"><img id="bookCover" src="https://github.com/cpmmckeown/transImgs/blob/master/AHappyLittleIsland.jpg?raw=true"></a>';  
+		document.getElementById("bTitle").innerHTML = '<hr><h1>A Happy Little Island</h1> (En lycklig liten ö, 2007) by Lars Sund translated by Peter Graves, 2016 <p>Dead bodies of asylum seekers wash ashore on the island of Fagerö and no one knows what to do with them. Lars Sund \’s strange and insightful story raises questions about our attitudes towards other human beings. Prescient at the time it was written, A Happy Little Island is now sadly relevant. These refugees aren \’ t even alive, and yet the island people still fear and mistreat them. There \' s no need to house and feed them, treat their ailments, or help them find employment. Only to bury them, and even that seems impossible. The novel is also an acute observation of island life, and its double opening, first introducing the omniscient narrator and then the first encounter of a dead fugitive, is masterclass in writing.</p>';
 	}
-	function onClickB()
+	function whiteShroud()
 	{
-		document.getElementById("desc").innerHTML = "Lovely Face";
+		document.getElementById("bTitle").innerHTML = '<hr><h1>White Shroud</h1><p>(Balta drobulė, 1958)</br>by Antanas Škėma</br>translated by Karla Gruodis, 2018</br><p>Considered by many to be Lithuania’s most important work of modernist fiction, White Shroud enjoys cult status amongst Lithuanians, as does its author, Antanas Škėma. The autobiographical novel’s strength lies in its nuanced exploration of refugee life: the alienation, the homesickness, the uneasy gratitude. Škėma’s protagonist, Antanas Garšva, was a poet in Lithuania and is a lift operator in New York – a menial job whose constant ups and downs mimic Garšva’s moods as he is haunted by the strangeness of his new life and vivid memories of his old one. It’s a mental state that he cannot sustain, and he’s losing his mind.</p><p>Originally banned in Lithuania and spurned by the émigré community in the US, the novel was first published by a London-based firm in 1958.</p><p>Learn more https://www.vagabondvoices.co.uk/bookshop-changelings/white-shroud</p>';
+		document.getElementById("bIMG").innerHTML = '<a href="https://www.vagabondvoices.co.uk"><img id="bookCover" src="https://github.com/cpmmckeown/transImgs/blob/master/WhiteShroud.jpg?raw=true"></a>';  
 	}
- 
-	
-
-
-	L.marker (quoteOne, {icon: weeMan}).addTo(map).on('click', onClickA).bindPopup('This Book By This Person');
-	L.marker (quoteTwo, {icon: weeMan}).addTo(map).on('click', onClickB).bindPopup('This Book By That Person');
+	function memoirs()
+	{
+		document.getElementById("bIMG").innerHTML = '<a href="https://www.vagabondvoices.co.uk"><img id="bookCover" src="https://github.com/cpmmckeown/transImgs/blob/master/MemoirsOfALifeCutShort.jpg?raw=true"></a>';
+		document.getElementById("bTitle").innerHTML = '<hr><h1>Memoirs of a Life Cut Short</h1><p>(Jauno žmogaus memuarai, 1991)</br>by Ričardas Gavelis</br>translated by Jayde Will, 2018</p><p>“Ever since I was at school I’ve wanted to know what it means to be ‘a good man’ in literature. I have to admit that I still don’t know. After becoming a writer, I wanted to write about a good man who is honest, has particular spiritual ideas and wishes everyone to be happy. Leonas Ciparis is essentially a man like that. Unfortunately such a man cannot exist in our world, and all we can do is write on his tombstone, ‘His life was a struggle’.” – author Ričardas Gavelis on the protagonist of Memoirs of a Life Cut Short</p><p><a href src=https://www.vagabondvoices.co.uk/bookshop-changelings/memoirs-of-a-life-cut-short>Learn more</a></p>';
+	}
+	function iLoved()
+	{
+		document.getElementById("bIMG").innerHTML = '<a href="https://www.vagabondvoices.co.uk"><img id="bookCover" src="https://github.com/cpmmckeown/transImgs/blob/master/ILovedAGerman.jpg?raw=true"></a>';
+		document.getElementById("bTitle").innerHTML = '<hr><h1>I Loved a German</h1><p>(Ma armastasin sakslast, 1935)</br>by A.H. Tammsaare</br>translated by Chris Moseley, 2018</p><p>Originally published in Estonia in 1935, I Loved a German is one of renowned author A.H. Tammsaare’s most fascinating works. Its form – a diary that the author pretended to have not written but only edited – caused much controversy at the time of publication. The diary is written by Oskar, an Estonian university student who questions his motivations for falling in love with a Baltic German woman whose ancestors enslaved his. It’s a story about national self-confidence and how a people, when liberated, can remain trapped in their own inferiority complex. Tammsaare translated much of Oscar Wilde’s work, and it is in the personal story – a witty series of misunderstandings – that Wilde’s influence shows.</p><a href src=’https://www.vagabondvoices.co.uk/bookshop-changelings/i-loved-a-german’>Learn more </a></p>';
+	}
+	function theDeath()
+	{
+		document.getElementById("bIMG").innerHTML = '<a href="https://www.vagabondvoices.co.uk"><img id="bookCover" src="https://github.com/cpmmckeown/transImgs/blob/master/TheDeathOfAPerfectSentence.jpg?raw=true"></a>';
+		document.getElementById("bTitle").innerHTML = '<hr><h1>The Death of the Perfect Sentence</h1><p>(Täiusliku lause surm, 2015)</br>by Rein Raud</br>translated by Matthew Hyde, 2017</br><p>This thoughtful spy novel cum love story is set mainly in Estonia during the dying days of the Soviet Union, but also in Russia, Finland and Sweden. A group of young pro-independence dissidents devise an elaborate scheme for smuggling copies of KGB files out of the country, and their fates become entangled, through family and romantic ties, with the security services never far behind them. This sometimes wistful examination of how the Estonian Republic was reborn after a long and stultifying hiatus speaks also of the courage and complex chemistry of those who pushed against a regime whose then weakness could not have been known to them.</p><p><a href src=’https://www.vagabondvoices.co.uk/bookshop-changelings/the-death-of-the-perfect-sentence’>Learn more</a></p>';
+	}
+	function theSaviour
+	{
+		document.getElementById("bIMG").innerHTML = '<a href="https://www.vagabondvoices.co.uk"><img id="bookCover" src="https://github.com/cpmmckeown/transImgs/blob/master/TheSaviourofLasnamae.jpg?raw=true"></a>';
+		document.getElementById("bTitle").innerHTML = '<hr><h1>The Saviour of Lasnamäe</h1><p>(Lasnamäe lunastaja, 2009)</br>by Mari Saat</br>translated by Susan Wilson, 2015</p><p>Winner of the Estonian Cultural Endowment’s Prize for Literature in 2008, The Saviour of Lasnamäe combines the gritty, realistic life of a single mother and her teenage daughter, who belong to the Russian minority in Estonia, with a religious undertone that resonates through the story in small, magical moments. Destiny may not exist – who would believe they were destined to work in a mobile phone factory and starve and struggle? – but we can still encounter moments that cause even the most faithless to falter. There is a beautiful scene in the snow at the end that will etch itself into your mind if you let it.</p><p><a href src=’https://www.vagabondvoices.co.uk/bookshop-changelings/the-saviour-of-lasnamae>Learn more</a></p>';
+	}
+	function eighteen
+	{
+		document.getElementById("bIMG").innerHTML = '<a href="https://www.vagabondvoices.co.uk"><img id="bookCover" src="https://github.com/cpmmckeown/transImgs/blob/master/18.jpg?raw=true"></a>';
+		document.getElementById("bTitle").innerHTML = '<hr><h1>18</h1><p>(18, 2015)</br>by Pauls Bankovskis</br>translated by Ieva Lešinska, 2017</br></p><p>What if time is layered, like a stack of pancakes? And what if trees, interconnected by a complex mycelial network, exemplify the most perfect type of freedom? The backdrop to this novel is a pivotal moment in Latvian history – the year is 1918 and Latvians are fighting for their independence – however, its scope is much broader. Our narrator is a deserter who traverses the country (and possibly time itself) largely by foot, narrowly avoiding all types of danger in a history now lost in myth and oblivion.</p><p><a href src=’https://www.vagabondvoices.co.uk/bookshop-changelings/18’>Learn more </a></p>';
+	}
+	function theAnnonymous
+	{
+		document.getElementById("bIMG").innerHTML = '<a href="https://www.vagabondvoices.co.uk"><img id="bookCover" src="https://github.com/cpmmckeown/transImgs/blob/master/TheAnnonymousNovel.jpg?raw=true"></a>';
+		document.getElementById("bTitle").innerHTML = '<hr><h1>The Anonymous Novel</h1><p>(Romanzo russo: Fuitando i futuri supplizi, 1998)</br>by Alessandro Barbero</br>translated by Allan Cameron, 2010</br></p><p>“This is a literary miracle – unique, witty and gripping. It reads like Bulgakov’s prose somewhat modernised or even a careful and sensitive translation of one of the great Russian classics. It is stunningly authentic, and I cannot believe that the author and translator are NOT Russian...” – Vitali Vitaliev</p><p>This is Vagabond Voices’ first translated fiction. It is indeed an essentially Russian novel, with many intersecting plots set in Gorbachev\'s Russia – a society in transition and disintegration – and is populated by a vast cast: an investigating judge, a Ph.D. student studying her grandfather\'s elimination under Stalin, a KGB man turned Islamic fundamentalist, an Islamic cleric whose murder triggers part of the plot, a Jewish actor who fecklessness appears almost heroic in this chaos, and much more! </p><p><a href src=’https://www.vagabondvoices.co.uk/bookshop-changelings/the-anonymous-novel’>Learn more</a></p>';
+	}
+	function ofJewish
+	{
+		document.getElementById("bIMG").innerHTML = '<a href="https://www.vagabondvoices.co.uk"><img id="bookCover" src="https://github.com/cpmmckeown/transImgs/blob/master/OfJewishRace.jpg?raw=true"></a>';
+		document.getElementById("bTitle").innerHTML = '<hr><h1>Of Jewish Race</h1><p>(Di razza ebraica, 2005)</br>by Renzo Modiano</br>translated by Mirna Cicioni & Susan Walker, 2013</p><p>A novelist\'s memoir of his nine months on the run in Nazi-occupied Italy as a seven-year-old. A tale of both the courage and generosity of others and the brutal idiocy of a racist regime. That conflicting experience coloured the rest of Modiano\'s life and in old age, he had to set it down on paper. The title comes from the wording that had to follow the name of every Jewish child on a school roll under the shameful "race laws" in 1938 which followed Mussolini\'s alliance with Hitler, called with typical authoritarian rhetoric \"the Pact of Steel\".</p><p><a href src=’https://www.vagabondvoices.co.uk/bookshop-changelings/of-jewish-race’> Learn more </a></p>';
+	}
 	
 	//L.marker(topLeft).addTo(map).bindPopup('top left');
 	//L.marker(topRight).addTo(map).bindPopup('top right');
